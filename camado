@@ -1,0 +1,44 @@
+<?php
+
+use app\core\Application;
+
+const ROOT_DIR = __DIR__;
+
+require_once ROOT_DIR . "/vendor/autoload.php";
+
+$dotenv = Dotenv\Dotenv::createImmutable(ROOT_DIR);
+$dotenv->load();
+
+$config = [
+    "database" => [
+        "connection" => $_ENV["DB_CONNECTION"],
+        "database" => $_ENV["DB_DATABASE"],
+        "host" => $_ENV["DB_HOST"],
+        "port" => $_ENV["DB_PORT"],
+        "username" => $_ENV["DB_USERNAME"],
+        "password" => $_ENV["DB_PASSWORD"],
+    ],
+    "site" => [
+        "SITE_NAME" => "Camado",
+        "ROOT_DIR" => __DIR__
+    ],
+];
+
+$app = new Application($config);
+
+$calls = [
+    "migrate" => 'migrate'
+];
+
+
+foreach ($argv as $file => $call) {
+
+    $callback_name = $calls[$call] ?? false;
+
+    if ($callback_name) {
+        echo $app->$callback_name() . "\n";
+    }
+
+}
+
+

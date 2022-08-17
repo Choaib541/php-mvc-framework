@@ -1,0 +1,17 @@
+{
+  "name": "camado/book-shop",
+  "autoload": {
+    "psr-4": {
+      "app\\": "./"
+    }
+  },
+  "authors": [
+    {
+      "name": "Choaib541",
+      "email": "mouhrachc@gmail.com"
+    }
+  ],
+  "require": {
+    "vlucas/phpdotenv": "^5.4"
+  }
+}
