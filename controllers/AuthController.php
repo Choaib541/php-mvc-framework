@@ -13,7 +13,7 @@ class AuthController extends Controller
         if ($request->is_post()) {
 
             $validating_results = $request->validate([
-                "email" => ["required", "email"],
+                "email" => ["required", "email", ["exists", ["users", "email"]]],
                 "password" => ["required", ["min", [8]]],
             ]);
 
@@ -35,7 +35,7 @@ class AuthController extends Controller
             $validating_results = $request->validate([
                 "name" => ["required", ["min", [3]], ["max", [22]]],
                 "birthday" => ["required", "date"],
-                "email" => ["required", "email"],
+                "email" => ["required", "email", ["unique", ["users", 'email']]],
                 "password" => ["required", "confirmed"],
             ]);
 

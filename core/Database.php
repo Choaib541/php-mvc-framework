@@ -119,6 +119,19 @@ class Database
         return $this;
     }
 
+
+    public function get_fetch_columns(): array
+    {
+        try {
+            $statement = $this->pdo->prepare($this->query);
+            $statement->execute();
+            $this->query = "";
+            return $statement->fetchAll(\PDO::FETCH_COLUMN);
+        } catch (\Exception $err) {
+            Application::$app->handle_error(message: $err->getMessage(), sql: $this->query);
+        }
+    }
+
     public function update(string $table, array $columns_values): static
     {
 
@@ -182,7 +195,7 @@ class Database
     public function where(string $column1, string $column2, string $operator = "="): static
     {
 
-        $this->query .= "WHERE $column1 $operator $column2 ";
+        $this->query .= "WHERE $column1 $operator " . "'" . "$column2" . "'" . " ";
 
         return $this;
 
@@ -198,8 +211,6 @@ class Database
         } catch (\Exception $err) {
             Application::$app->handle_error(message: $err->getMessage(), sql: $this->query);
         }
-
-
     }
 
     public function join(string $table, string $column1, string $column2, string $operator = "="): static

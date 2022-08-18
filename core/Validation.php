@@ -102,12 +102,47 @@ abstract class Validation
         }
 
         return $password === $password_confirmation ? [
-            "state" => TRUE,
+            "state" => TRUE
         ] : [
             "state" => FALSE,
             "message" => "the password and password_confirmation does not match"
         ];
     }
 
+    public function exists(string $name, array $data): array
+    {
+
+        $table = $data[0];
+        $column = $data[1];
+        $result = Application::$app->database->select($table, ["id"])->where($column, $this->get_body()[$name])->get();
+
+//        echo "<pre>";
+//        var_dump(
+//
+//        );
+//        echo "</pre>";
+
+        return !empty($result) ? [
+            "state" => TRUE
+        ] : [
+            "state" => FALSE,
+            "message" => "the $column that you entered does not exist"
+        ];
+    }
+
+    public function unique(string $name, array $data): array
+    {
+
+        $table = $data[0];
+        $column = $data[1];
+        $result = Application::$app->database->select($table, ["id"])->where($column, $this->get_body()[$name])->get();
+
+        return empty($result) ? [
+            "state" => TRUE
+        ] : [
+            "state" => FALSE,
+            "message" => "This $column has already been taken"
+        ];
+    }
 
 }

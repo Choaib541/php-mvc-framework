@@ -17,6 +17,8 @@ class Request extends Validation
             "date" => [$this, "check_date"],
             "email" => [$this, "email"],
             "confirmed" => [$this, "confirmed"],
+            "exists" => [$this, "exists"],
+            "unique" => [$this, "unique"],
         ];
 
     }
@@ -89,23 +91,6 @@ class Request extends Validation
 
     public function validate($request_rules): array
     {
-        /*[
-                "name" => ["required", ["min", [3]], ["max", [22]]],
-                "birthday" => ["required", "date"],
-                "email" => ["required", "email"],
-                "password" => ["required", "confirmed"],
-        ]*/
-
-
-        /*[
-            "required"  =>  [$this, "required"],
-            "min"       =>  [$this, "min"],
-            "max"       =>  [$this, "max"],
-            "date"      =>  [$this, "date"],
-            "email"     =>  [$this, "email"],
-            "confirmed" =>  [$this, "confirmed"],
-        ]*/
-
         $result = [
             "state" => TRUE,
             "body" => []
@@ -142,7 +127,6 @@ class Request extends Validation
                     $result["state"] = $res["state"];
                     break;
                 }
-
 
             }
 
