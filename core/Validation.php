@@ -116,12 +116,6 @@ abstract class Validation
         $column = $data[1];
         $result = Application::$app->database->select($table, ["id"])->where($column, $this->get_body()[$name])->get();
 
-//        echo "<pre>";
-//        var_dump(
-//
-//        );
-//        echo "</pre>";
-
         return !empty($result) ? [
             "state" => TRUE
         ] : [

@@ -40,4 +40,14 @@ class Response
 
     }
 
+    public function redirect(string $location, array $flash_data = []): void
+    {
+
+        if (!empty($flash_data)) {
+            Application::$app->session->create_flash_message($flash_data["state"], $flash_data["message"]);
+        }
+
+        header("LOCATION: $location");
+    }
+
 }

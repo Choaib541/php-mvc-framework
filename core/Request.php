@@ -23,7 +23,6 @@ class Request extends Validation
 
     }
 
-
     /**
      * @return string
      */
@@ -77,8 +76,6 @@ class Request extends Validation
         $uri = $_SERVER["REQUEST_URI"];
 
         $qm_position = strpos("$uri", "?");
-
-        $current_url = "";
 
         if ($qm_position) {
             $current_url = substr($uri, 0, $qm_position);
@@ -134,6 +131,9 @@ class Request extends Validation
 
         if ($result["state"]) {
             $result["body"] = $this->get_body();
+            if (isset($result["body"]["password_confirmation"])) {
+                unset($result["body"]["password_confirmation"]);
+            }
         }
 
         return $result;

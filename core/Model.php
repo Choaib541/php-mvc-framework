@@ -31,9 +31,9 @@ abstract class Model
         $this->load($data);
     }
 
-    public static function find(int $id): bool|static
+    public static function find(array $column_value): bool|static
     {
-        $result = self::db()->select(static::$table)->where("id", $id)->first();
+        $result = self::db()->select(static::$table)->where($column_value[0], $column_value[1])->first();
         if (!empty($result)) {
             $instance = new static();
             $instance->load($result);
@@ -82,13 +82,14 @@ abstract class Model
 
     public static function create(array $columns_value): bool|static
     {
-        self::db()->insert(static::$table, $columns_value);
+        self::db()->insert(static::$table, $columns_value)->exec();
 
         $last_id = self::db()->last_inserted_id();
 
-        return self::find($last_id["id"]);
+        return self::find(["id", $last_id[0]]);
 
     }
+
 
     public function delete(): void
     {

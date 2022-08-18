@@ -14,11 +14,11 @@ class m0001_create_users_table
                 id INT AUTO_INCREMENT PRIMARY KEY,
                 name VARCHAR(60) NOT NULL,
                 email VARCHAR(255) NOT NULL,
+                birthday DATE NOT NULL,
                 password VARCHAR(60) NOT NULL,
                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                 updated_at TIMESTAMP NULL ON UPDATE CURRENT_TIMESTAMP
             );
-        
         ");
             return [TRUE];
         } catch (Exception $err) {

@@ -167,6 +167,7 @@ class Database
 
         $this->query = $query;
 
+
         return $this;
 
     }

@@ -11,6 +11,12 @@
 
 <?php
 
+//session_start();
+//
+//unset($_SESSION["user"]);
+//
+//exit;
+
 use app\core\Application;
 
 define("ROOT_DIR", dirname(__DIR__));
@@ -35,15 +41,23 @@ $config = [
     ],
 ];
 
+
 $app = new Application($config);
 
 $app->router->get("/", [\app\controllers\Controller::class, "index"]);
-$app->router->get("/login", [\app\controllers\AuthController::class, "login"]);
-$app->router->post("/login", [\app\controllers\AuthController::class, "login"]);
-$app->router->get("/register", [\app\controllers\AuthController::class, "register"]);
-$app->router->post("/register", [\app\controllers\AuthController::class, "register"]);
+
+if ($app->gate->isGuest()) {
+    $app->router->get("/login", [\app\controllers\AuthController::class, "login"]);
+    $app->router->post("/login", [\app\controllers\AuthController::class, "login"]);
+    $app->router->get("/register", [\app\controllers\AuthController::class, "register"]);
+    $app->router->post("/register", [\app\controllers\AuthController::class, "register"]);
+} else {
+    $app->router->get("/logout", [\app\controllers\AuthController::class, "logout"]);
+}
+
 
 $app->run();
+
 ?>
 
 
